@@ -415,11 +415,11 @@
     max: 15000
   };
   const LABELS = {
-    standard: { name: 'Стандартный', range: '50–55%' },
-    premium:  { name: 'Премия',      range: '55–60%' },
-    elite:    { name: 'Элитный',     range: '60–65%' },
-    ultra:    { name: 'Ультра',      range: '65–70%' },
-    max:      { name: 'Максимум',    range: '70%+'   }
+    standard: '50–55%',
+    premium:  '55–60%',
+    elite:    '60–65%',
+    ultra:    '65–70%',
+    max:      '70%+'
   };
 
   let currentTier = 'premium';
@@ -489,10 +489,10 @@
       totalRow.className = 'total-row blocked';
     } else {
       const rate = RATES[currentTier];
-      const label = LABELS[currentTier];
+      const range = LABELS[currentTier];
       bonus = orders * rate;
       prBadge.className = 'pr-tier-badge ' + currentTier;
-      prBadgeText.textContent = label.name + ': ' + fmtShort(rate) + ' ₽ за 1 млн';
+      prBadgeText.textContent = 'Выкуп ' + range + ' — ' + fmtShort(rate) + ' ₽ за 1 млн';
       bonusFormula.innerHTML =
         '<span>' + orders.toFixed(1) + '</span> млн × <span>' +
         fmtShort(rate) + ' ₽</span> = <span>' + fmt(bonus) + '</span>';
