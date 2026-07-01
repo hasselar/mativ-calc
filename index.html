@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Калькулятор бонусов — Руководитель отдела продаж</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>
+  // Apply theme before paint to avoid flash
+  (function() {
+    try {
+      const saved = localStorage.getItem('mativ-theme');
+      const prefLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (prefLight ? 'light' : 'dark'));
+    } catch(e) {}
+  })();
+</script>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -27,6 +37,33 @@
     --purple-dim: rgba(192, 132, 252, 0.12);
     --pink: #F472B6;
     --pink-dim: rgba(244, 114, 182, 0.12);
+    --thumb-border: var(--bg);
+    --bg-grad-1: rgba(74,222,128,0.04);
+    --bg-grad-2: rgba(96,165,250,0.03);
+  }
+
+  html[data-theme="light"] {
+    --bg: #F5F7FB;
+    --surface: #FFFFFF;
+    --surface2: #EEF1F7;
+    --border: #DDE3EE;
+    --text: #0F172A;
+    --text-dim: #64748B;
+    --accent: #16A34A;
+    --accent-dim: rgba(22, 163, 74, 0.10);
+    --red: #DC2626;
+    --red-dim: rgba(220, 38, 38, 0.10);
+    --yellow: #D97706;
+    --yellow-dim: rgba(217, 119, 6, 0.10);
+    --blue: #2563EB;
+    --blue-dim: rgba(37, 99, 235, 0.10);
+    --purple: #9333EA;
+    --purple-dim: rgba(147, 51, 234, 0.10);
+    --pink: #DB2777;
+    --pink-dim: rgba(219, 39, 119, 0.10);
+    --thumb-border: #FFFFFF;
+    --bg-grad-1: rgba(22,163,74,0.05);
+    --bg-grad-2: rgba(37,99,235,0.04);
   }
 
   body {
@@ -38,10 +75,27 @@
     flex-direction: column;
     align-items: center;
     padding: 40px 20px 60px;
+    transition: background-color 0.25s ease, color 0.25s ease;
     background-image:
-      radial-gradient(ellipse 600px 400px at 20% 10%, rgba(74,222,128,0.04), transparent),
-      radial-gradient(ellipse 500px 300px at 80% 80%, rgba(96,165,250,0.03), transparent);
+      radial-gradient(ellipse 600px 400px at 20% 10%, var(--bg-grad-1), transparent),
+      radial-gradient(ellipse 500px 300px at 80% 80%, var(--bg-grad-2), transparent);
   }
+
+  .theme-toggle {
+    position: fixed; top: 20px; right: 20px;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; z-index: 100;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .theme-toggle:hover { transform: scale(1.08); border-color: var(--accent); }
+  .theme-toggle .icon-sun { display: none; }
+  .theme-toggle .icon-moon { display: inline; }
+  html[data-theme="light"] .theme-toggle .icon-sun { display: inline; }
+  html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
 
   .container { width: 100%; max-width: 720px; }
 
@@ -169,7 +223,7 @@
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none; appearance: none;
     width: 22px; height: 22px; border-radius: 50%;
-    background: var(--accent); border: 3px solid var(--bg);
+    background: var(--accent); border: 3px solid var(--thumb-border);
     box-shadow: 0 0 12px rgba(74, 222, 128, 0.3);
     transition: transform 0.15s ease;
   }
@@ -178,7 +232,7 @@
 
   input[type="range"]::-moz-range-thumb {
     width: 22px; height: 22px; border-radius: 50%;
-    background: var(--accent); border: 3px solid var(--bg);
+    background: var(--accent); border: 3px solid var(--thumb-border);
     box-shadow: 0 0 12px rgba(74, 222, 128, 0.3); cursor: pointer;
   }
 
@@ -298,6 +352,11 @@
 </head>
 <body>
 
+<button class="theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Переключить тему">
+  <span class="icon-moon">🌙</span>
+  <span class="icon-sun">☀️</span>
+</button>
+
 <div class="container">
   <header>
     <h1>Система мотивации</h1>
@@ -404,6 +463,15 @@
     <div class="warning-text" id="warningText">⚠ Процент выкупа ниже 50% — бонус отсутствует</div>
   </div>
 </div>
+
+<script>
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    const cur = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    const next = cur === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('mativ-theme', next);
+  });
+</script>
 
 <script>
   const BASE = 150000;
