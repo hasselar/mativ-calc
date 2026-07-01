@@ -21,6 +21,10 @@
     --red-dim: rgba(248, 113, 113, 0.12);
     --yellow: #FBBF24;
     --yellow-dim: rgba(251, 191, 36, 0.12);
+    --blue: #60A5FA;
+    --blue-dim: rgba(96, 165, 250, 0.12);
+    --purple: #C084FC;
+    --purple-dim: rgba(192, 132, 252, 0.12);
   }
 
   body {
@@ -32,7 +36,7 @@
     flex-direction: column;
     align-items: center;
     padding: 40px 20px 60px;
-    background-image: 
+    background-image:
       radial-gradient(ellipse 600px 400px at 20% 10%, rgba(74,222,128,0.04), transparent),
       radial-gradient(ellipse 500px 300px at 80% 80%, rgba(96,165,250,0.03), transparent);
   }
@@ -76,33 +80,36 @@
   .structure-value.green { color: var(--accent); }
   .structure-value.red { color: var(--red); }
   .structure-value.yellow { color: var(--yellow); }
+  .structure-value.blue { color: var(--blue); }
+  .structure-value.purple { color: var(--purple); }
 
   .pr-toggle-group { margin-bottom: 0; }
   .pr-toggle-label { font-size: 15px; font-weight: 500; margin-bottom: 14px; display: block; }
 
   .pr-toggle {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
     gap: 8px;
   }
 
   .pr-btn {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 16px 8px; border-radius: 12px;
+    padding: 16px 6px; border-radius: 12px;
     background: var(--surface2); border: 2px solid var(--border);
     cursor: pointer; transition: all 0.25s ease;
     -webkit-user-select: none; user-select: none;
+    text-align: center;
   }
 
   .pr-btn:hover { border-color: #3a4260; }
 
   .pr-btn-value {
-    font-family: 'Space Mono', monospace; font-size: 18px;
+    font-family: 'Space Mono', monospace; font-size: 15px;
     font-weight: 700; margin-bottom: 4px;
   }
 
   .pr-btn-sub {
-    font-size: 12px; color: var(--text-dim);
+    font-size: 11px; color: var(--text-dim);
     transition: color 0.25s ease;
   }
 
@@ -117,6 +124,14 @@
   .pr-btn.active-premium { border-color: var(--accent); background: var(--accent-dim); }
   .pr-btn.active-premium .pr-btn-value { color: var(--accent); }
   .pr-btn.active-premium .pr-btn-sub { color: var(--accent); }
+
+  .pr-btn.active-elite { border-color: var(--blue); background: var(--blue-dim); }
+  .pr-btn.active-elite .pr-btn-value { color: var(--blue); }
+  .pr-btn.active-elite .pr-btn-sub { color: var(--blue); }
+
+  .pr-btn.active-ultra { border-color: var(--purple); background: var(--purple-dim); }
+  .pr-btn.active-ultra .pr-btn-value { color: var(--purple); }
+  .pr-btn.active-ultra .pr-btn-sub { color: var(--purple); }
 
   .slider-group { margin-bottom: 28px; }
 
@@ -174,6 +189,8 @@
 
   .result-card.blocked::before { background: linear-gradient(90deg, var(--red), var(--red)); }
   .result-card.standard-mode::before { background: linear-gradient(90deg, var(--yellow), var(--yellow)); }
+  .result-card.elite-mode::before { background: linear-gradient(90deg, var(--blue), var(--blue)); }
+  .result-card.ultra-mode::before { background: linear-gradient(90deg, var(--purple), var(--purple)); }
 
   .pr-tier-badge {
     display: inline-flex; align-items: center; gap: 8px;
@@ -185,6 +202,8 @@
   .pr-tier-badge.blocked { background: var(--red-dim); color: var(--red); }
   .pr-tier-badge.standard { background: var(--yellow-dim); color: var(--yellow); }
   .pr-tier-badge.premium { background: var(--accent-dim); color: var(--accent); }
+  .pr-tier-badge.elite { background: var(--blue-dim); color: var(--blue); }
+  .pr-tier-badge.ultra { background: var(--purple-dim); color: var(--purple); }
 
   .pr-tier-dot {
     width: 8px; height: 8px; border-radius: 50%; animation: pulse 2s infinite;
@@ -193,6 +212,8 @@
   .blocked .pr-tier-dot { background: var(--red); }
   .standard .pr-tier-dot { background: var(--yellow); }
   .premium .pr-tier-dot { background: var(--accent); }
+  .elite .pr-tier-dot { background: var(--blue); }
+  .ultra .pr-tier-dot { background: var(--purple); }
 
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
@@ -230,6 +251,8 @@
 
   .total-row.blocked { background: var(--red-dim); border-color: rgba(248,113,113,0.2); }
   .total-row.standard-mode { background: var(--yellow-dim); border-color: rgba(251,191,36,0.2); }
+  .total-row.elite-mode { background: var(--blue-dim); border-color: rgba(96,165,250,0.2); }
+  .total-row.ultra-mode { background: var(--purple-dim); border-color: rgba(192,132,252,0.2); }
 
   .total-label { font-size: 16px; font-weight: 600; }
 
@@ -240,6 +263,8 @@
 
   .total-row.blocked .total-value { color: var(--red); }
   .total-row.standard-mode .total-value { color: var(--yellow); }
+  .total-row.elite-mode .total-value { color: var(--blue); }
+  .total-row.ultra-mode .total-value { color: var(--purple); }
 
   .warning-text {
     display: none; font-size: 13px; color: var(--red);
@@ -248,42 +273,14 @@
 
   .warning-text.visible { display: block; }
 
-  .full-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-
-  .full-table th {
-    font-family: 'Space Mono', monospace; font-size: 11px;
-    letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);
-    text-align: center; padding: 12px 8px; border-bottom: 1px solid var(--border);
-  }
-
-  .full-table th:first-child { text-align: left; }
-
-  .full-table td {
-    font-family: 'Space Mono', monospace; font-size: 14px;
-    padding: 12px 8px; border-bottom: 1px solid var(--border);
-    text-align: center; color: var(--text-dim);
-  }
-
-  .full-table td:first-child { text-align: left; font-weight: 700; color: var(--text); }
-  .full-table tr:last-child td { border-bottom: none; }
-  .full-table .col-blocked { color: var(--red); }
-  .full-table .col-standard { color: var(--yellow); }
-  .full-table .col-premium { color: var(--accent); font-weight: 600; }
-  .table-header-blocked { color: var(--red) !important; }
-  .table-header-standard { color: var(--yellow) !important; }
-  .table-header-premium { color: var(--accent) !important; }
-
-  .footer { text-align: center; margin-top: 16px; font-size: 13px; color: var(--text-dim); }
-
   @media (max-width: 600px) {
     .result-grid { grid-template-columns: 1fr; }
     .total-value { font-size: 26px; }
     header h2 { font-size: 26px; }
     .card { padding: 24px; }
-    .full-table { font-size: 13px; }
-    .full-table td, .full-table th { padding: 10px 6px; }
+    .pr-toggle { grid-template-columns: repeat(2, 1fr); }
     .pr-btn { padding: 12px 6px; }
-    .pr-btn-value { font-size: 15px; }
+    .pr-btn-value { font-size: 14px; }
   }
 </style>
 </head>
@@ -311,8 +308,16 @@
       <span class="structure-value yellow">+ 4 000 ₽</span>
     </div>
     <div class="structure-row">
-      <span class="structure-label">Выкуп выше 55%: за каждый 1 млн отправок</span>
+      <span class="structure-label">Выкуп 55–60%: за каждый 1 млн отправок</span>
       <span class="structure-value green">+ 7 000 ₽</span>
+    </div>
+    <div class="structure-row">
+      <span class="structure-label">Выкуп 60–65%: за каждый 1 млн отправок</span>
+      <span class="structure-value blue">+ 10 000 ₽</span>
+    </div>
+    <div class="structure-row">
+      <span class="structure-label">Выкуп 65–70%: за каждый 1 млн отправок</span>
+      <span class="structure-value purple">+ 13 000 ₽</span>
     </div>
   </div>
 
@@ -340,8 +345,16 @@
           <span class="pr-btn-sub">4 000 ₽ / млн</span>
         </div>
         <div class="pr-btn" id="btnPremium" onclick="setTier('premium')">
-          <span class="pr-btn-value">> 55%</span>
+          <span class="pr-btn-value">55–60%</span>
           <span class="pr-btn-sub">7 000 ₽ / млн</span>
+        </div>
+        <div class="pr-btn" id="btnElite" onclick="setTier('elite')">
+          <span class="pr-btn-value">60–65%</span>
+          <span class="pr-btn-sub">10 000 ₽ / млн</span>
+        </div>
+        <div class="pr-btn" id="btnUltra" onclick="setTier('ultra')">
+          <span class="pr-btn-value">65–70%</span>
+          <span class="pr-btn-sub">13 000 ₽ / млн</span>
         </div>
       </div>
     </div>
@@ -360,7 +373,7 @@
         <div class="result-item-value">150 000 ₽</div>
       </div>
       <div class="result-item">
-        <div class="result-item-label">Бонус</div>
+        <div class="result-item-label">Премия</div>
         <div class="result-item-value" id="bonusPay">0 ₽</div>
       </div>
     </div>
@@ -370,14 +383,22 @@
     </div>
     <div class="warning-text" id="warningText">⚠ Процент выкупа ниже 50% — бонус отсутствует</div>
   </div>
-
-  <div class="footer">Пересмотр условий — ежеквартально</div>
 </div>
 
 <script>
   const BASE = 150000;
-  const RATE_STD = 4000;
-  const RATE_PREM = 7000;
+  const RATES = {
+    standard: 4000,
+    premium: 7000,
+    elite: 10000,
+    ultra: 13000
+  };
+  const LABELS = {
+    standard: { name: 'Стандартный', range: '50–55%' },
+    premium:  { name: 'Премия',      range: '55–60%' },
+    elite:    { name: 'Элитный',     range: '60–65%' },
+    ultra:    { name: 'Максимум',    range: '65–70%' }
+  };
 
   let currentTier = 'premium';
 
@@ -392,14 +413,39 @@
   const prBadgeText = document.getElementById('prBadgeText');
   const bonusFormula = document.getElementById('bonusFormula');
 
+  const btnIds = {
+    blocked: 'btnBlocked',
+    standard: 'btnStandard',
+    premium: 'btnPremium',
+    elite: 'btnElite',
+    ultra: 'btnUltra'
+  };
+
+  const activeClass = {
+    blocked: 'active-blocked',
+    standard: 'active-standard',
+    premium: 'active-premium',
+    elite: 'active-elite',
+    ultra: 'active-ultra'
+  };
+
+  const cardMode = {
+    blocked: 'blocked',
+    standard: 'standard-mode',
+    premium: '',
+    elite: 'elite-mode',
+    ultra: 'ultra-mode'
+  };
+
   function fmt(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
   function fmtShort(n) { return n.toLocaleString('ru-RU'); }
 
   function setTier(tier) {
     currentTier = tier;
-    document.getElementById('btnBlocked').className = 'pr-btn' + (tier === 'blocked' ? ' active-blocked' : '');
-    document.getElementById('btnStandard').className = 'pr-btn' + (tier === 'standard' ? ' active-standard' : '');
-    document.getElementById('btnPremium').className = 'pr-btn' + (tier === 'premium' ? ' active-premium' : '');
+    for (const key in btnIds) {
+      const el = document.getElementById(btnIds[key]);
+      el.className = 'pr-btn' + (key === tier ? ' ' + activeClass[key] : '');
+    }
     calculate();
   }
 
@@ -410,26 +456,24 @@
     let bonus = 0;
     const isBlocked = currentTier === 'blocked';
 
-    if (currentTier === 'standard') {
-      bonus = orders * RATE_STD;
-      prBadge.className = 'pr-tier-badge standard';
-      prBadgeText.textContent = 'Стандартный: 4 000 ₽ за 1 млн';
-      bonusFormula.innerHTML = '<span>' + orders.toFixed(1) + '</span> млн × <span>' + fmtShort(RATE_STD) + ' ₽</span> = <span>' + fmt(bonus) + '</span>';
-      resultCard.className = 'result-card standard-mode';
-      totalRow.className = 'total-row standard-mode';
-    } else if (currentTier === 'premium') {
-      bonus = orders * RATE_PREM;
-      prBadge.className = 'pr-tier-badge premium';
-      prBadgeText.textContent = 'Премиум: 7 000 ₽ за 1 млн';
-      bonusFormula.innerHTML = '<span>' + orders.toFixed(1) + '</span> млн × <span>' + fmtShort(RATE_PREM) + ' ₽</span> = <span>' + fmt(bonus) + '</span>';
-      resultCard.className = 'result-card';
-      totalRow.className = 'total-row';
-    } else {
+    if (isBlocked) {
       prBadge.className = 'pr-tier-badge blocked';
       prBadgeText.textContent = 'Бонус отсутствует';
       bonusFormula.innerHTML = 'Выкуп ниже 50% — <span style="color:var(--red)">бонус = 0</span>';
       resultCard.className = 'result-card blocked';
       totalRow.className = 'total-row blocked';
+    } else {
+      const rate = RATES[currentTier];
+      const label = LABELS[currentTier];
+      bonus = orders * rate;
+      prBadge.className = 'pr-tier-badge ' + currentTier;
+      prBadgeText.textContent = label.name + ': ' + fmtShort(rate) + ' ₽ за 1 млн';
+      bonusFormula.innerHTML =
+        '<span>' + orders.toFixed(1) + '</span> млн × <span>' +
+        fmtShort(rate) + ' ₽</span> = <span>' + fmt(bonus) + '</span>';
+      const mode = cardMode[currentTier];
+      resultCard.className = 'result-card' + (mode ? ' ' + mode : '');
+      totalRow.className = 'total-row' + (mode ? ' ' + mode : '');
     }
 
     bonusPay.textContent = fmt(bonus);
